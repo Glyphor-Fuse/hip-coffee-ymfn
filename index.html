@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KISSA YORU | Tokyo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Tenor+Sans&display=swap" rel="stylesheet">
+    <style>
+        /* RESET & BASE */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-paper: #F2F0EB;
+            --bg-rail: #121110;
+            --text-dark: #121110;
+            --text-light: #F2F0EB;
+            --accent: #C14918;
+            --warm-stone: #D6D2C4;
+            --font-display: 'Tenor Sans', sans-serif;
+            --font-mono: 'Space Mono', monospace;
+            --rail-width: 280px;
+        }
+
+        body {
+            background-color: var(--bg-paper);
+            color: var(--text-dark);
+            font-family: var(--font-mono);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* LAYOUT GRID */
+        .layout-container {
+            display: grid;
+            grid-template-columns: var(--rail-width) 1fr;
+            min-height: 100vh;
+        }
+
+        @media (max-width: 900px) {
+            .layout-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* RAIL SIDEBAR */
+        .rail {
+            background-color: var(--bg-rail);
+            color: var(--text-light);
+            height: 100vh;
+            position: sticky;
+            top: 0;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            z-index: 100;
+        }
+
+        .rail-header h1 {
+            font-family: var(--font-display);
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            margin-bottom: 0.5rem;
+        }
+
+        .rail-header span {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent);
+            display: block;
+            margin-top: 1rem;
+        }
+
+        .rail-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .rail-nav a {
+            color: rgba(242, 240, 235, 0.6);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+        }
+
+        .rail-nav a::before {
+            content: '';
+            position: absolute;
+            left: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background-color: var(--accent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            border-radius: 50%;
+        }
+
+        .rail-nav a:hover, .rail-nav a.active {
+            color: var(--text-light);
+            padding-left: 5px;
+        }
+
+        .rail-nav a:hover::before {
+            opacity: 1;
+        }
+
+        .rail-footer {
+            font-size: 0.7rem;
+            opacity: 0.5;
+            line-height: 1.6;
+        }
+
+        .rail-footer .status {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+            opacity: 1;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #2ECC71;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        /* MOBILE NAV OVERRIDE */
+        @media (max-width: 900px) {
+            .rail {
+                height: auto;
+                position: relative;
+                padding: 1.5rem;
+                flex-direction: row;
+                align-items: center;
+                flex-wrap: wrap;
+            }
+            .rail-nav, .rail-footer {
+                display: none;
+            }
+            .rail-header h1 {
+                font-size: 1.8rem;
+            }
+        }
+
+        /* MAIN CONTENT SCROLL */
+        .content {
+            width: 100%;
+        }
+
+        /* SECTIONS GENERAL */
+        section {
+            padding: 6rem 4rem;
+            border-bottom: 1px solid rgba(18, 17, 16, 0.1);
+        }
+
+        @media (max-width: 600px) {
+            section {
+                padding: 3rem 1.5rem;
+            }
+        }
+
+        /* HERO SECTION */
+        .hero {
+            height: 90vh;
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            padding: 4rem;
+            overflow: hidden;
+            background-color: var(--text-dark);
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.6;
+            transition: transform 0.5s ease-out;
+        }
+
+        .hero-bg img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            color: var(--text-light);
+            max-width: 800px;
+        }
+
+        .hero-subtitle {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            margin-bottom: 1.5rem;
+            display: block;
+            color: var(--accent);
+        }
+
+        .hero h2 {
+            font-family: var(--font-display);
+            font-size: 5rem;
+            line-height: 0.9;
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .hero h2 { font-size: 3rem; }
+            .hero { padding: 2rem; }
+        }
+
+        /* PHILOSOPHY SECTION (Editorial) */
+        .philosophy {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            background-color: var(--warm-stone);
+        }
+
+        .philosophy-text p {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            font-family: var(--font-display);
+        }
+
+        .philosophy-meta {
+            font-size: 0.85rem;
+            border-top: 1px solid var(--text-dark);
+            padding-top: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .vertical-img {
+            height: 120%;
+            margin-top: -10%;
+            position: relative;
+        }
+
+        @media (max-width: 900px) {
+            .philosophy { grid-template-columns: 1fr; }
+            .vertical-img { height: 400px; margin-top: 0; }
+        }
+
+        /* MENU SECTION (Ticketing Style) */
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2px;
+            background-color: rgba(18, 17, 16, 0.1);
+            border: 1px solid rgba(18, 17, 16, 0.1);
+        }
+
+        .menu-item {
+            background-color: var(--bg-paper);
+            padding: 2rem;
+            transition: background-color 0.3s ease;
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .menu-item:hover {
+            background-color: #FFF;
+        }
+
+        .menu-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+        }
+
+        .menu-tags {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .menu-desc {
+            font-size: 0.85rem;
+            opacity: 0.7;
+            line-height: 1.5;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 3rem;
+            margin-bottom: 3rem;
+            color: var(--text-dark);
+        }
+
+        /* GALLERY / ATMOSPHERE */
+        .atmosphere {
+            position: relative;
+            padding-bottom: 10rem;
+        }
+
+        .collage-container {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: 600px;
+            align-items: center;
+        }
+
+        .collage-img {
+            position: relative;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .collage-img.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .c-1 {
+            grid-column: 1 / 8;
+            grid-row: 1;
+            z-index: 1;
+        }
+
+        .c-2 {
+            grid-column: 6 / 12;
+            grid-row: 1;
+            z-index: 2;
+            padding-top: 150px;
+        }
+        
+        .c-label {
+            position: absolute;
+            background: var(--accent);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            top: 2rem;
+            right: -1rem;
+            z-index: 3;
+        }
+
+        /* FOOTER */
+        .visit {
+            background-color: var(--text-dark);
+            color: var(--text-light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .visit h2 {
+            font-family: var(--font-display);
+            font-size: 4rem;
+            margin-bottom: 2rem;
+        }
+
+        .visit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            text-align: left;
+            width: 100%;
+            max-width: 600px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 2rem;
+        }
+
+        .visit-item span {
+            display: block;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+
+        .visit-item p {
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        /* UTILITY */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="layout-container">
+        <!-- RAIL SIDEBAR -->
+        <nav class="rail">
+            <div class="rail-header">
+                <h1>Kissa<br>Yoru</h1>
+                <span>Shibuya District</span>
+            </div>
+
+            <div class="rail-nav">
+                <ul>
+                    <li><a href="#intro">Philosophy</a></li>
+                    <li><a href="#menu">Roasts & Brews</a></li>
+                    <li><a href="#atmosphere">Atmosphere</a></li>
+                    <li><a href="#visit">Visit</a></li>
+                </ul>
+            </div>
+
+            <div class="rail-footer">
+                <div class="status">
+                    <div class="status-dot"></div>
+                    <span>Open Now</span>
+                </div>
+                <p>Currently playing:<br>Ryo Fukui – Scenery (1976)</p>
+                <br>
+                <p>35.6580° N, 139.7016° E</p>
+            </div>
+        </nav>
+
+        <!-- MAIN SCROLLABLE CONTENT -->
+        <main class="content">
+            
+            <!-- HERO -->
+            <header class="hero" id="intro">
+                <div class="hero-bg">
+                    <img src="https://images.unsplash.com/photo-1497935586351-b67a49e012bf?q=80&w=2071&auto=format&fit=crop" alt="Pour over coffee detail dark">
+                </div>
+                <div class="hero-content reveal">
+                    <span class="hero-subtitle">Hi-Fi Audio & Coffee</span>
+                    <h2>Silence,<br>Sound &<br>Beans.</h2>
+                </div>
+            </header>
+
+            <!-- PHILOSOPHY -->
+            <section class="philosophy">
+                <div class="philosophy-text reveal">
+                    <p>We believe in the ritual of delay. In a city that never stops, Yoru is a pause button. Inspired by the Kissaten culture of the Showa era, we combine precision hand-drip coffee with vintage JBL Paragon speakers.</p>
+                    <p>No Wi-Fi. No rushing. Just the warmth of the tube amp and the depth of the roast.</p>
+                    
+                    <div class="philosophy-meta">
+                        <div>
+                            <strong>Audio</strong><br>McIntosh 275 Tube Amp
+                        </div>
+                        <div>
+                            <strong>Beans</strong><br>Single Origin, Light Roast
+                        </div>
+                    </div>
+                </div>
+                <div class="philosophy-img reveal">
+                    <div class="vertical-img">
+                        <img src="https://images.unsplash.com/photo-1595928642581-f50f4f3453a5?q=80&w=1600&auto=format&fit=crop" alt="Minimalist coffee shop interior wood">
+                    </div>
+                </div>
+            </section>
+
+            <!-- MENU -->
+            <section id="menu" class="menu-section">
+                <h3 class="section-title reveal">Selected Roasts</h3>
+                <div class="menu-grid reveal">
+                    <!-- Item 1 -->
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-tags">Ethiopia / Washed</div>
+                            <div class="menu-header">
+                                <span>Yirgacheffe G1</span>
+                                <span>¥900</span>
+                            </div>
+                            <p class="menu-desc">Jasmine, Bergamot, and a delicate tea-like finish. Served in ceramic.</p>
+                        </div>
+                    </div>
+                    <!-- Item 2 -->
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-tags">Kenya / Natural</div>
+                            <div class="menu-header">
+                                <span>Nyeri AA</span>
+                                <span>¥950</span>
+                            </div>
+                            <p class="menu-desc">Bright acidity with notes of blackcurrant and tomato jam. Punchy and vibrant.</p>
+                        </div>
+                    </div>
+                    <!-- Item 3 -->
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-tags">Guatemala / Honey</div>
+                            <div class="menu-header">
+                                <span>Antigua Sweet</span>
+                                <span>¥850</span>
+                            </div>
+                            <p class="menu-desc">Chocolate body with a lingering caramel sweetness. The comfort cup.</p>
+                        </div>
+                    </div>
+                    <!-- Item 4 -->
+                    <div class="menu-item">
+                        <div>
+                            <div class="menu-tags">House Blend</div>
+                            <div class="menu-header">
+                                <span>Night Jazz</span>
+                                <span>¥800</span>
+                            </div>
+                            <p class="menu-desc">Darker roast designed for the evening. Smoky, spicy, and smooth.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ATMOSPHERE -->
+            <section id="atmosphere" class="atmosphere">
+                <h3 class="section-title reveal">The Space</h3>
+                <div class="collage-container">
+                    <div class="collage-img c-1">
+                        <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?q=80&w=1587&auto=format&fit=crop" alt="Vinyl record playing">
+                        <div class="c-label">Analog Only</div>
+                    </div>
+                    <div class="collage-img c-2">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?q=80&w=2047&auto=format&fit=crop" alt="Pouring coffee slow motion">
+                    </div>
+                </div>
+            </section>
+
+            <!-- VISIT -->
+            <section id="visit" class="visit">
+                <h2 class="reveal">Find Us</h2>
+                <div class="visit-grid reveal">
+                    <div class="visit-item">
+                        <span>Location</span>
+                        <p>12-4 Udagawacho<br>Shibuya City, Tokyo<br>150-0042</p>
+                    </div>
+                    <div class="visit-item">
+                        <span>Hours</span>
+                        <p>Mon - Thu: 10:00 - 20:00<br>Fri - Sun: 10:00 - 23:00</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <script>
+        // Reveal Animations on Scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    if (entry.target.classList.contains('collage-img')) {
+                        entry.target.classList.add('visible');
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .collage-img').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Active Link State in Rail
+        const sections = document.querySelectorAll('section, header');
+        const navLinks = document.querySelectorAll('.rail-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= (sectionTop - sectionHeight / 3)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').includes(current)) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Subtle Parallax for Hero
+        const heroBg = document.querySelector('.hero-bg');
+        window.addEventListener('scroll', () => {
+            const scrollVal = window.scrollY;
+            if (scrollVal < window.innerHeight) {
+                heroBg.style.transform = `translateY(${scrollVal * 0.4}px)`;
+            }
+        });
+    </script>
+
+<script>
+  let inspectorMode = false;
+  let hoveredElement = null;
+  let selectedElement = null;
+  
+  window.addEventListener('message', (event) => {
+    if (event.data?.type === 'SET_INSPECTOR_MODE') {
+      inspectorMode = event.data.enabled;
+      document.body.style.cursor = inspectorMode ? 'crosshair' : 'default';
+    }
+    
+    if (event.data?.type === 'LOCAL_UPDATE' && selectedElement) {
+      const update = event.data.update;
+      
+      if (update.text !== undefined) {
+        selectedElement.innerText = update.text;
+      }
+      
+      if (update.styles) {
+        Object.entries(update.styles).forEach(([prop, value]) => {
+          selectedElement.style[prop] = value;
+        });
+      }
+    }
+  });
+  
+  document.addEventListener('mouseover', (e) => {
+    if (!inspectorMode) return;
+    if (hoveredElement && hoveredElement !== selectedElement) {
+      hoveredElement.style.outline = '';
+    }
+    hoveredElement = e.target;
+    if (hoveredElement !== selectedElement) {
+      hoveredElement.style.outline = '2px solid #06b6d4';
+    }
+  });
+  
+  document.addEventListener('mouseout', (e) => {
+    if (!inspectorMode || !hoveredElement) return;
+    if (hoveredElement !== selectedElement) {
+      hoveredElement.style.outline = '';
+    }
+  });
+  
+  document.addEventListener('click', (e) => {
+    if (!inspectorMode) return;
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (selectedElement) {
+      selectedElement.style.outline = '';
+    }
+    
+    const el = e.target;
+    selectedElement = el;
+    el.style.outline = '3px solid #06b6d4';
+    
+    const rect = el.getBoundingClientRect();
+    const styles = window.getComputedStyle(el);
+    
+    window.parent.postMessage({
+      type: 'ELEMENT_SELECTED',
+      element: {
+        tagName: el.tagName.toLowerCase(),
+        text: el.innerText?.substring(0, 500) || '',
+        className: el.className || '',
+        styles: {
+          color: styles.color,
+          backgroundColor: styles.backgroundColor,
+          fontSize: styles.fontSize,
+          fontWeight: styles.fontWeight,
+          padding: styles.padding,
+          margin: styles.margin,
+        },
+        rect: {
+          top: rect.top,
+          left: rect.left,
+          width: rect.width,
+          height: rect.height,
+        },
+        selector: el.id ? '#' + el.id : (el.className ? '.' + el.className.split(' ')[0] : el.tagName.toLowerCase())
+      }
+    }, '*');
+  }, true);
+</script>
+</body>
+</html>
